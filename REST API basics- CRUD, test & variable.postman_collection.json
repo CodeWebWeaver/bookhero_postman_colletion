@@ -31,7 +31,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"admin@gmail.com\",\n    \"password\": \"123456789\"\n}",
+							"raw": "{\n\t\"email\": \"johnmali@gmail.com\",\n    \"password\": \"123456789\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -86,7 +86,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"title\": \"Laoy\",\n    \"author\": \"Kada\",\n    \"isbn\": \"9780136091813\",\n    \"price\": \"315\",\n    \"description\": \"Valid data\",\n    \"coverImage\": \"https://agh.com\",\n    \"categoryId\": [1]\n}",
+							"raw": "{\n\t\"title\": \"Laoy\",\n    \"author\": \"Kada\",\n    \"isbn\": \"9780136091813\",\n    \"price\": \"36\",\n    \"description\": \"Valid data\",\n    \"coverImage\": \"https://agh.com\",\n    \"categoryId\": [1]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -94,15 +94,70 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/books/1",
+							"raw": "http://localhost:8081/api/books/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"api",
 								"books",
+								"1"
+							]
+						},
+						"description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Update category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful PUT request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Fiction 2\",\n    \"description\": \"Fun books\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/categories/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"categories",
 								"1"
 							]
 						},
@@ -127,7 +182,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"status\": \"DELIVERED\"\r\n}",
+							"raw": "{\r\n    \"orderStatus\": \"DELIVERED\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -151,7 +206,7 @@
 					"response": []
 				},
 				{
-					"name": "createBook",
+					"name": "Create book",
 					"event": [
 						{
 							"listen": "test",
@@ -210,6 +265,177 @@
 						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
 					},
 					"response": []
+				},
+				{
+					"name": "Create category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJxd2VydHlAZ21haWwuY29tIiwiaWF0IjoxNjk0NTI2NDM2LCJleHAiOjE2OTQ1MjY3MzZ9.co9ddSZv1uVi5UaKB-jTfLR4l5-So6sHUnQKv40tZuTFsE2_DLONS20eHwraTVCK",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Fiction\",\n    \"description\": \"Fun books\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"categories"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Remove category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful DELETE request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/categories/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"categories",
+								"2"
+							]
+						},
+						"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Remove book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful DELETE request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/books/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"books",
+								"1"
+							]
+						},
+						"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+					},
+					"response": []
 				}
 			]
 		},
@@ -217,7 +443,7 @@
 			"name": "User",
 			"item": [
 				{
-					"name": "get Order History",
+					"name": "Get order history",
 					"event": [
 						{
 							"listen": "test",
@@ -268,7 +494,58 @@
 					"response": []
 				},
 				{
-					"name": "get specific order item",
+					"name": "Get all categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJxd2VydHlAZ21haWwuY29tIiwiaWF0IjoxNjk0NTI4OTgzLCJleHAiOjE2OTQ1MjkyODN9.Mox-ECZMKq18CZt8tT1ObMdHJGEcXT9nGGvuOKhwoZzNkmlRjtkV56P2dP_PZlYT",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8081/api/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"categories"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific order item",
 					"event": [
 						{
 							"listen": "test",
@@ -322,7 +599,7 @@
 					"response": []
 				},
 				{
-					"name": "get specific order item`s",
+					"name": "Get specific order item`s",
 					"event": [
 						{
 							"listen": "test",
@@ -375,7 +652,7 @@
 					"response": []
 				},
 				{
-					"name": "get All books",
+					"name": "Get all books",
 					"event": [
 						{
 							"listen": "test",
@@ -410,12 +687,12 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/api/books",
+							"raw": "http://localhost:8081/api/books",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"api",
 								"books"
@@ -426,7 +703,7 @@
 					"response": []
 				},
 				{
-					"name": "get All books by category",
+					"name": "Get all books by category",
 					"event": [
 						{
 							"listen": "test",
@@ -461,65 +738,12 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/api/categories/1/books",
+							"raw": "http://localhost:8081/api/categories/1/books",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
-							"path": [
-								"api",
-								"categories",
-								"1",
-								"books"
-							]
-						},
-						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
-					},
-					"response": []
-				},
-				{
-					"name": "getCategories",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{jwt_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJxd2VydHlAZ21haWwuY29tIiwiaWF0IjoxNjk0NTI4OTgzLCJleHAiOjE2OTQ1MjkyODN9.Mox-ECZMKq18CZt8tT1ObMdHJGEcXT9nGGvuOKhwoZzNkmlRjtkV56P2dP_PZlYT",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:8080/api/categories/1/books",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"api",
 								"categories",
@@ -532,7 +756,60 @@
 					"response": []
 				},
 				{
-					"name": "get Cart",
+					"name": "Get categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJxd2VydHlAZ21haWwuY29tIiwiaWF0IjoxNjk0NTI4OTgzLCJleHAiOjE2OTQ1MjkyODN9.Mox-ECZMKq18CZt8tT1ObMdHJGEcXT9nGGvuOKhwoZzNkmlRjtkV56P2dP_PZlYT",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8081/api/categories/1/books",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"categories",
+								"1",
+								"books"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": []
+				},
+				{
+					"name": "Get cart",
 					"event": [
 						{
 							"listen": "test",
@@ -618,12 +895,12 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/api/books/search?authors=Kada&title=Laoy",
+							"raw": "http://localhost:8081/api/books/search?authors=Kada&title=Laoy",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"api",
 								"books",
@@ -836,12 +1113,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/cart/cart-items/13",
+							"raw": "http://localhost:8081/api/cart/cart-items/13",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"api",
 								"cart",
@@ -892,12 +1169,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/cart/cart-items/12",
+							"raw": "http://localhost:8081/api/cart/cart-items/12",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8081",
 							"path": [
 								"api",
 								"cart",
@@ -935,7 +1212,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\": \"admin@gmail.com\",\n    \"password\": \"123456789\",\n    \"repeatPassword\": \"123456789\",\n    \"firstName\": \"User\",\n    \"lastName\": \"Userovich\",\n    \"shippingAddress\": \"Tatuin\"\n}",
+					"raw": "{\n\t\"email\": \"johnmali@gmail.com\",\n    \"password\": \"123456789\",\n    \"repeatPassword\": \"123456789\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Malibden\",\n    \"shippingAddress\": \"New York, 23 Avenue 2/103\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
